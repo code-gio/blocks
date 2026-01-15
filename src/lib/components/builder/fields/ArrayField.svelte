@@ -26,7 +26,7 @@
 		const newItem: Record<string, unknown> = {};
 		// Initialize with defaults from item schema if any
 		for (const itemField of field.itemSchema) {
-			if (itemField.kind === 'string' || itemField.kind === 'text') {
+			if (itemField.kind === 'string' || itemField.kind === 'text' || itemField.kind === 'richText') {
 				newItem[itemField.path] = '';
 			} else if (itemField.kind === 'boolean') {
 				newItem[itemField.path] = false;
@@ -47,7 +47,7 @@
 				// Initialize object with empty values for child fields
 				newItem[itemField.path] = {};
 				for (const childField of itemField.fields) {
-					if (childField.kind === 'string' || childField.kind === 'text') {
+					if (childField.kind === 'string' || childField.kind === 'text' || childField.kind === 'richText') {
 						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = '';
 					} else if (childField.kind === 'boolean') {
 						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = false;

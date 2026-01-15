@@ -51,6 +51,10 @@ export interface TextFieldDef extends BaseFieldDef {
 	max?: number;
 }
 
+export interface RichTextFieldDef extends BaseFieldDef {
+	kind: 'richText';
+}
+
 export interface NumberFieldDef extends BaseFieldDef {
 	kind: 'number';
 	min?: number;
@@ -106,6 +110,7 @@ export interface ArrayFieldDef extends BaseFieldDef {
 export type FieldDef =
 	| StringFieldDef
 	| TextFieldDef
+	| RichTextFieldDef
 	| NumberFieldDef
 	| BooleanFieldDef
 	| EnumFieldDef

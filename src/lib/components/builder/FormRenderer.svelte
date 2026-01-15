@@ -2,6 +2,7 @@
 	import type { FieldDef, BlockInstance } from '$lib/components/blocks/types';
 	import StringField from './fields/StringField.svelte';
 	import TextField from './fields/TextField.svelte';
+	import RichTextField from './fields/RichTextField.svelte';
 	import NumberField from './fields/NumberField.svelte';
 	import EnumField from './fields/EnumField.svelte';
 	import BooleanField from './fields/BooleanField.svelte';
@@ -37,6 +38,8 @@
 	<StringField field={field} value={String(fieldValue ?? '')} onChange={handleChange} />
 {:else if field.kind === 'text'}
 	<TextField field={field} value={String(fieldValue ?? '')} onChange={handleChange} />
+{:else if field.kind === 'richText'}
+	<RichTextField field={field} value={String(fieldValue ?? '')} onChange={handleChange} />
 {:else if field.kind === 'number'}
 	<NumberField field={field} value={Number(fieldValue ?? 0)} onChange={handleChange} />
 {:else if field.kind === 'enum'}
