@@ -32,6 +32,11 @@
 				newItem[itemField.path] = false;
 			} else if (itemField.kind === 'number') {
 				newItem[itemField.path] = 0;
+			} else if (itemField.kind === 'icon') {
+				newItem[itemField.path] = '';
+			} else if (itemField.kind === 'enum') {
+				// Use first option as default if available
+				newItem[itemField.path] = itemField.options[0]?.value ?? '';
 			}
 		}
 		addArrayItem(block.props, field.path, newItem);

@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import type { BlockDefinition } from '../types';
-import FeaturesSection from '../components/FeaturesSection.svelte';
+import type { BlockDefinition } from '../../types';
+import FeaturesSection from '../../components/features/FeaturesSection.svelte';
 
 const featureSchema = z.object({
 	_id: z.string(),

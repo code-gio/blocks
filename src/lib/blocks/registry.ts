@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import BlockFallback from './components/BlockFallback.svelte';
-import { FeaturesSection } from './definitions/features.section';
+import { FeaturesSection } from './definitions/features/features.section';
 
 /**
  * Component Registry - Maps block.type to Svelte component.

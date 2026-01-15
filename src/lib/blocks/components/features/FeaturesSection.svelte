@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Variant, Density, Align, Columns } from '../types';
-	import { getIcon } from '../icon-registry';
+	import type { Variant, Density, Align, Columns } from '../../types';
+	import { getIcon } from '../../icon-registry';
 	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
 	import { cn } from '$lib/utils';
 

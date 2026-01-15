@@ -15,4 +15,6 @@
 	const Component = $derived.by(() => getBlockComponent(migratedBlock.type));
 </script>
 
-<svelte:component this={Component} {...migratedBlock.props} />
+{#if Component}
+	<Component {...migratedBlock.props} />
+{/if}

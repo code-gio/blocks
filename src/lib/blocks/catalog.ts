@@ -6,7 +6,7 @@ import type { BlockInstance, BlockDefinition } from './types';
  */
 
 // Import block definitions here as they are created
-import { featuresSectionDefinition } from './definitions/features.section';
+import { featuresSectionDefinition } from './definitions/features/features.section';
 
 const definitions: BlockDefinition[] = [featuresSectionDefinition];
 
