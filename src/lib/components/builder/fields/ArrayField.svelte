@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ArrayFieldDef } from '$lib/blocks/types';
+	import type { ArrayFieldDef } from '$lib/components/blocks/types';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
@@ -11,7 +11,7 @@
 		getValueByPath,
 		setValueByPath
 	} from '../utils/path-utils';
-	import type { BlockInstance } from '$lib/blocks/types';
+	import type { BlockInstance } from '$lib/components/blocks/types';
 
 	interface Props {
 		field: ArrayFieldDef;
@@ -37,6 +37,38 @@
 			} else if (itemField.kind === 'enum') {
 				// Use first option as default if available
 				newItem[itemField.path] = itemField.options[0]?.value ?? '';
+			} else if (itemField.kind === 'link') {
+				newItem[itemField.path] = { href: '', label: '', target: '_self' };
+			} else if (itemField.kind === 'image') {
+				newItem[itemField.path] = { src: '', alt: '', fit: 'cover' };
+			} else if (itemField.kind === 'date' || itemField.kind === 'datetime') {
+				newItem[itemField.path] = '';
+			} else if (itemField.kind === 'object') {
+				// Initialize object with empty values for child fields
+				newItem[itemField.path] = {};
+				for (const childField of itemField.fields) {
+					if (childField.kind === 'string' || childField.kind === 'text') {
+						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = '';
+					} else if (childField.kind === 'boolean') {
+						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = false;
+					} else if (childField.kind === 'number') {
+						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = 0;
+					} else if (childField.kind === 'link') {
+						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = {
+							href: '',
+							label: '',
+							target: '_self'
+						};
+					} else if (childField.kind === 'image') {
+						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = {
+							src: '',
+							alt: '',
+							fit: 'cover'
+						};
+					} else if (childField.kind === 'date' || childField.kind === 'datetime') {
+						(newItem[itemField.path] as Record<string, unknown>)[childField.path] = '';
+					}
+				}
 			}
 		}
 		addArrayItem(block.props, field.path, newItem);

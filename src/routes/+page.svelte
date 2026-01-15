@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { BlockInstance } from "$lib/blocks/types";
-    import { blockList, getBlockDefinition } from "$lib/blocks/catalog";
-    import BlockRenderer from "$lib/blocks/BlockRenderer.svelte";
-    import FormRenderer from "$lib/builder/FormRenderer.svelte";
+    import type { BlockInstance } from "$lib/components/blocks/types";
+    import { blockList, getBlockDefinition } from "$lib/components/blocks/catalog";
+    import BlockRenderer from "$lib/components/blocks/BlockRenderer.svelte";
+    import FormRenderer from "$lib/components/builder/FormRenderer.svelte";
     import { buttonVariants } from "$lib/components/ui/button";
     import * as Select from "$lib/components/ui/select";
     import * as Dialog from "$lib/components/ui/dialog";

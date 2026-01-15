@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { IconFieldDef } from '$lib/blocks/types';
+	import type { IconFieldDef } from '$lib/components/blocks/types';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import IconSelector from './IconSelector.svelte';
-	import { getIcon } from '$lib/blocks/icon-registry';
+	import { getIcon } from '$lib/components/blocks/icon-registry.js';
 
 	interface Props {
 		field: IconFieldDef;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ICON_KEYS, getIcon } from '$lib/blocks/icon-registry';
+	import { ICON_KEYS, getIcon } from '$lib/components/blocks/icon-registry';
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 	import { Card, CardContent } from '$lib/components/ui/card';

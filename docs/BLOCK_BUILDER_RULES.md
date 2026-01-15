@@ -158,6 +158,7 @@ Optional:
 
 ### icon-registry.ts
 
+- Located at `src/lib/components/blocks/icon-registry.ts`
 - Provide `ICONS` map, `ICON_KEYS` list, and `getIcon(key)` fallback.
 - `IconSelector` must show only `ICON_KEYS`.
 - Rendering components must resolve icons using `getIcon(iconKey)`.
@@ -192,7 +193,7 @@ When converting HTML sections into blocks:
 ### 2. Reliable Path Utilities
 
 - **Why**: Prevents bugs from inconsistent path handling (especially arrays)
-- **Implementation**: Single utility (`path-utils.ts`) handles:
+- **Implementation**: Single utility (`src/lib/components/builder/utils/path-utils.ts`) handles:
   - `getValueByPath()` - Get nested values
   - `setValueByPath()` - Set nested values
   - `addArrayItem()` - Add to arrays (auto-generates `_id`)
@@ -250,39 +251,53 @@ When converting HTML sections into blocks:
 ## Recommended Folder Structure
 
 ```
-src/lib/blocks/
-  icon-registry.ts
-  registry.ts
-  catalog.ts
-  types.ts
-  BlockRenderer.svelte
-  components/
-    BlockFallback.svelte
-    {block-type}/
-      ComponentName.svelte
-  definitions/
-    {block-type}/
-      {block-type}.section.ts
+src/lib/components/
+  blocks/
+    icon-registry.ts
+    registry.ts
+    catalog.ts
+    types.ts
+    BlockRenderer.svelte
+    components/
+      BlockFallback.svelte
+      {block-type}/
+        ComponentName.svelte
+    definitions/
+      {block-type}/
+        {block-type}.section.ts
 
-src/lib/builder/
-  FormRenderer.svelte
-  fields/
-    StringField.svelte
-    TextField.svelte
-    NumberField.svelte
-    BooleanField.svelte
-    EnumField.svelte
-    IconField.svelte
-    IconSelector.svelte
-    ImageField.svelte
-    LinkField.svelte
-    ArrayField.svelte
-    ObjectField.svelte
-  utils/
-    path-utils.ts
+  builder/
+    FormRenderer.svelte
+    fields/
+      StringField.svelte
+      TextField.svelte
+      NumberField.svelte
+      BooleanField.svelte
+      EnumField.svelte
+      IconField.svelte
+      IconSelector.svelte
+      ImageField.svelte
+      LinkField.svelte
+      DateField.svelte
+      DateTimeField.svelte
+      ArrayField.svelte
+      ObjectField.svelte
+    utils/
+      path-utils.ts
+
+  ui/
+    button/
+    card/
+    input/
+    select/
+    ... (shadcn/ui components)
 ```
 
-**Note**: Components are organized by block type in subdirectories to support scaling.
+**Note**: 
+- All components are under `src/lib/components/` for consistency
+- Blocks are organized by block type in subdirectories to support scaling
+- Builder field components are in `builder/fields/`
+- UI components from shadcn/ui are in `ui/`
 
 ---
 
@@ -305,6 +320,17 @@ src/lib/builder/
 - State is declared with `$state()`
 
 ---
+
+## Project Structure
+
+The builder page is located at the root route:
+- **Builder Page**: `src/routes/+page.svelte` - Main builder interface
+- **Layout**: `src/routes/+layout.svelte` - Root layout wrapper
+
+All block and builder components are under `src/lib/components/`:
+- **Blocks**: `src/lib/components/blocks/` - Block components, definitions, registry, catalog
+- **Builder**: `src/lib/components/builder/` - Form renderer and field components
+- **UI**: `src/lib/components/ui/` - shadcn/ui components
 
 ## See Also
 

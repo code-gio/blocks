@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BooleanFieldDef } from '$lib/blocks/types';
+	import type { BooleanFieldDef } from '$lib/components/blocks/types';
 	import { Label } from '$lib/components/ui/label';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 

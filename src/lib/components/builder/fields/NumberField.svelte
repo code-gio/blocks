@@ -1,24 +1,30 @@
 <script lang="ts">
-	import type { StringFieldDef } from '$lib/blocks/types';
+	import type { NumberFieldDef } from '$lib/components/blocks/types';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 
 	interface Props {
-		field: StringFieldDef;
-		value: string;
-		onChange: (value: string) => void;
+		field: NumberFieldDef;
+		value: number;
+		onChange: (value: number) => void;
 	}
 
-	const { field, value = '', onChange }: Props = $props();
+	const { field, value = 0, onChange }: Props = $props();
 </script>
 
 <div class="space-y-2">
 	<Label for={field.path}>{field.label}</Label>
 	<Input
 		id={field.path}
-		type="text"
+		type="number"
 		value={value}
-		oninput={(e) => onChange(e.currentTarget.value)}
+		oninput={(e) => {
+			const num = parseFloat(e.currentTarget.value);
+			onChange(isNaN(num) ? 0 : num);
+		}}
+		min={field.min}
+		max={field.max}
+		step={field.step ?? 1}
 		placeholder={field.placeholder}
 		required={field.required}
 	/>

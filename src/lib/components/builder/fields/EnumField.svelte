@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { EnumFieldDef } from '$lib/blocks/types';
+	import type { EnumFieldDef } from '$lib/components/blocks/types';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 

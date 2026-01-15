@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TextFieldDef } from '$lib/blocks/types';
+	import type { TextFieldDef } from '$lib/components/blocks/types';
 	import { Label } from '$lib/components/ui/label';
 
 	interface Props {

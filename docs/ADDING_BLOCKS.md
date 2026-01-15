@@ -16,19 +16,19 @@ Each block type requires three files:
 Create a new directory for your block type:
 
 ```bash
-mkdir -p src/lib/blocks/components/{block-type}
-mkdir -p src/lib/blocks/definitions/{block-type}
+mkdir -p src/lib/components/blocks/components/{block-type}
+mkdir -p src/lib/components/blocks/definitions/{block-type}
 ```
 
 **Example:**
 ```bash
-mkdir -p src/lib/blocks/components/hero
-mkdir -p src/lib/blocks/definitions/hero
+mkdir -p src/lib/components/blocks/components/hero
+mkdir -p src/lib/components/blocks/definitions/hero
 ```
 
 ### 2. Create the Component
 
-Create your Svelte component in `src/lib/blocks/components/{block-type}/ComponentName.svelte`:
+Create your Svelte component in `src/lib/components/blocks/components/{block-type}/ComponentName.svelte`:
 
 ```svelte
 <script lang="ts">
@@ -71,7 +71,7 @@ Create your Svelte component in `src/lib/blocks/components/{block-type}/Componen
 
 ### 3. Create the Definition
 
-Create `src/lib/blocks/definitions/{block-type}/{block-type}.section.ts`:
+Create `src/lib/components/blocks/definitions/{block-type}/{block-type}.section.ts`:
 
 ```typescript
 import { z } from 'zod';
@@ -144,6 +144,11 @@ export { YourComponent };
 - `boolean` - Switch/checkbox
 - `enum` - Select dropdown (requires `options` array)
 - `icon` - Icon selector
+- `link` - Link editor (href, label, target)
+- `image` - Image picker (src, alt, width, height, fit)
+- `date` - Date picker
+- `datetime` - Datetime picker
+- `object` - Grouped fields (fieldset)
 - `array` - Repeater list (requires `itemSchema`)
 
 **Array Fields:**
@@ -181,7 +186,7 @@ interface Item {
 
 ### 4. Register in Registry
 
-Add to `src/lib/blocks/registry.ts`:
+Add to `src/lib/components/blocks/registry.ts`:
 
 ```typescript
 import { YourComponent } from './definitions/{block-type}/{block-type}.section';
@@ -192,7 +197,7 @@ registerBlock('your.block.type', YourComponent);
 
 ### 5. Register in Catalog
 
-Add to `src/lib/blocks/catalog.ts`:
+Add to `src/lib/components/blocks/catalog.ts`:
 
 ```typescript
 import { yourBlockDefinition } from './definitions/{block-type}/{block-type}.section';
@@ -205,7 +210,7 @@ const definitions: BlockDefinition[] = [
 
 ## Complete Example: Hero Block
 
-### Component: `src/lib/blocks/components/hero/HeroSection.svelte`
+### Component: `src/lib/components/blocks/components/hero/HeroSection.svelte`
 
 ```svelte
 <script lang="ts">
@@ -258,7 +263,7 @@ const definitions: BlockDefinition[] = [
 </section>
 ```
 
-### Definition: `src/lib/blocks/definitions/hero/hero.section.ts`
+### Definition: `src/lib/components/blocks/definitions/hero/hero.section.ts`
 
 ```typescript
 import { z } from 'zod';
@@ -411,7 +416,7 @@ When you need to change the prop structure of an existing block:
 ## Testing Your Block
 
 1. Start the dev server: `npm run dev`
-2. Navigate to `/` (builder page)
+2. Navigate to `/` (the builder page is at the root route: `src/routes/+page.svelte`)
 3. Select your new block type from the dropdown
 4. Verify:
    - Block appears in the list
