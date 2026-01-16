@@ -7,8 +7,38 @@ import type { BlockInstance, BlockDefinition } from './types';
 
 // Import block definitions here as they are created
 import { featuresSectionDefinition } from './definitions/features/features.section';
+import { heroCarouselDefinition } from "./definitions/hero/hero-carousel.section";
+import { heroWithImageReviewsDefinition } from "./definitions/hero/hero-with-image-reviews.section";
+import { pricingCardsToggleDefinition } from "./definitions/pricing/pricing-cards-toggle.section";
+import { faqCenteredCardsDefinition } from "./definitions/faq/faq-centered-cards.section";
+import { testimonialsCarouselDefinition } from "./definitions/testimonials/testimonials-carousel.section";
+import { testimonialsQuoteStyleDefinition } from "./definitions/testimonials/testimonials-quote-style.section";
+import { galleryGridDefinition } from "./definitions/gallery/gallery-grid.section";
+import { galleryMasonryDefinition } from "./definitions/gallery/gallery-masonry.section";
+import { formSingleColumnDefinition } from "./definitions/form/form-single-column.section";
+import { formContactSimpleDefinition } from "./definitions/form/form-contact-simple.section";
+import { formNewsletterSignUpDefinition } from "./definitions/form/form-newsletter-signup.section";
+import { footerCenteredSocialsDefinition } from "./definitions/footer/footer-centered-socials.section";
+import { contactCenteredDefinition } from "./definitions/contact/contact-centered.section";
+import { contactWithFormDefinition } from "./definitions/contact/contact-with-form.section";
 
-const definitions: BlockDefinition[] = [featuresSectionDefinition];
+const definitions: BlockDefinition[] = [
+  featuresSectionDefinition,
+  heroCarouselDefinition,
+  heroWithImageReviewsDefinition,
+  pricingCardsToggleDefinition,
+  faqCenteredCardsDefinition,
+  testimonialsCarouselDefinition,
+  testimonialsQuoteStyleDefinition,
+  galleryGridDefinition,
+  galleryMasonryDefinition,
+  formSingleColumnDefinition,
+  formContactSimpleDefinition,
+  formNewsletterSignUpDefinition,
+  footerCenteredSocialsDefinition,
+  contactCenteredDefinition,
+  contactWithFormDefinition,
+];
 
 export const catalog: Record<string, BlockDefinition> = {};
 
