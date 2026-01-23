@@ -34,15 +34,15 @@ export const faqCenteredCardsDefinition: BlockDefinition = {
       },
       {
         _id: "_id3",
-        question: "How does Preline's pricing work?",
+        question: "How does mindhyv's pricing work?",
         answer:
           "Our subscriptions are tiered. Understanding the task at hand and ironing out the wrinkles is key.",
       },
       {
         _id: "_id4",
-        question: "How secure is Preline?",
+        question: "How secure is mindhyv?",
         answer:
-          "Protecting the data you trust to Preline is our first priority. This part is really crucial in keeping the project in line to completion.",
+          "Protecting the data you trust to mindhyv is our first priority. This part is really crucial in keeping the project in line to completion.",
       },
       {
         _id: "_id5",

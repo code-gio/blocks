@@ -31,7 +31,7 @@ export const heroWithImageReviewsDefinition: BlockDefinition = {
   version: 1,
   defaults: {
     title: "Start your journey with",
-    brandName: "Preline",
+    brandName: "mindhyv",
     highlight: "",
     description:
       "Hand-picked professionals and expertly crafted components, designed for any kind of entrepreneur.",

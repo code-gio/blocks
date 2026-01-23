@@ -12,13 +12,14 @@
       CardHeader,
       CardTitle,
     } from "$lib/components/ui/card";
-    import { Pencil, Trash2 } from "@lucide/svelte";
+    import { Pencil, Trash2, Plus } from "@lucide/svelte";
     import { Button } from "$lib/components/ui/button";
   
     let blocks = $state<BlockInstance[]>([]);
     let selectedBlockIndex = $state<number | null>(null);
     let selectedBlockType = $state<string>("");
     let editDialogOpen = $state(false);
+    let blocksDialogOpen = $state(false);
   
     const selectedBlock = $derived(() => {
       if (selectedBlockIndex === null) return null;
@@ -75,143 +76,154 @@
   </script>
   
   <div class="min-h-screen bg-background">
-    <div class="container mx-auto p-6">
-      <div class="mb-6">
+    <div class="container mx-auto p-6 space-y-6">
+      <!-- Header -->
+      <div>
         <h1 class="text-3xl font-bold mb-2">Block Builder</h1>
         <p class="text-muted-foreground">Build pages using blocks</p>
       </div>
   
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Block List & Add -->
-        <div class="lg:col-span-1 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Add Block</CardTitle>
-            </CardHeader>
-            <CardContent class="space-y-4">
-              <Select.Root
-                type="single"
-                bind:value={selectedBlockType}
-                onValueChange={(val) => val && addBlock(val)}
+      <!-- Add Block Section -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Add Block</CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div class="flex gap-2">
+            <Select.Root
+              type="single"
+              bind:value={selectedBlockType}
+              onValueChange={(val) => val && addBlock(val)}
+            >
+              <Select.Trigger class="flex-1">
+                {selectTriggerContent}
+              </Select.Trigger>
+              <Select.Content>
+                <Select.Group>
+                  {#each blockList as blockType (blockType.type)}
+                    <Select.Item
+                      value={blockType.type}
+                      label={blockType.displayName}
+                    >
+                      {blockType.displayName}
+                    </Select.Item>
+                  {/each}
+                </Select.Group>
+              </Select.Content>
+            </Select.Root>
+            <Dialog.Root bind:open={blocksDialogOpen}>
+              <Dialog.Trigger
+                class={buttonVariants({ variant: "outline" })}
               >
-                <Select.Trigger class="w-full">
-                  {selectTriggerContent}
-                </Select.Trigger>
-                <Select.Content>
-                  <Select.Group>
-                    {#each blockList as blockType (blockType.type)}
-                      <Select.Item
-                        value={blockType.type}
-                        label={blockType.displayName}
+                <Plus class="h-4 w-4 mr-2" />
+                View Blocks ({blocks.length})
+              </Dialog.Trigger>
+              <Dialog.Content class="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
+                <Dialog.Header>
+                  <Dialog.Title>Blocks ({blocks.length})</Dialog.Title>
+                  <Dialog.Description>
+                    Manage your blocks. Select a block to edit it.
+                  </Dialog.Description>
+                </Dialog.Header>
+                <div class="space-y-2 py-4">
+                  {#each blocks as block, index}
+                    {@const definition = getBlockDefinition(block.type)}
+                    <div
+                      class="flex items-center gap-2 p-3 rounded-md border hover:bg-accent transition-colors {selectedBlockIndex ===
+                      index
+                        ? 'border-primary bg-accent'
+                        : 'border-border'}"
+                    >
+                      <button
+                        type="button"
+                        class="flex-1 text-left"
+                        onclick={() => {
+                          selectedBlockIndex = index;
+                          blocksDialogOpen = false;
+                        }}
                       >
-                        {blockType.displayName}
-                      </Select.Item>
-                    {/each}
-                  </Select.Group>
-                </Select.Content>
-              </Select.Root>
-            </CardContent>
-          </Card>
+                        <div class="font-medium">
+                          {definition?.displayName ?? block.type}
+                        </div>
+                        <div class="text-sm text-muted-foreground">
+                          v{block.version}
+                        </div>
+                      </button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onclick={() => deleteBlock(index)}
+                        class="h-8 w-8"
+                      >
+                        <Trash2 class="h-4 w-4" />
+                      </Button>
+                    </div>
+                  {:else}
+                    <p class="text-sm text-muted-foreground text-center py-4">
+                      No blocks added yet. Select a block type above to get started.
+                    </p>
+                  {/each}
+                </div>
+              </Dialog.Content>
+            </Dialog.Root>
+          </div>
+        </CardContent>
+      </Card>
+  
+      <!-- Preview Section -->
+      <div>
+        {#if selectedBlock() && selectedDefinition()}
+          {@const block = selectedBlock()!}
+          {@const definition = selectedDefinition()!}
   
           <Card>
-            <CardHeader>
-              <CardTitle>Blocks ({blocks.length})</CardTitle>
-            </CardHeader>
-            <CardContent class="space-y-2">
-              {#each blocks as block, index}
-                {@const definition = getBlockDefinition(block.type)}
-                <div
-                  class="flex items-center gap-2 p-3 rounded-md border hover:bg-accent transition-colors {selectedBlockIndex ===
-                  index
-                    ? 'border-primary bg-accent'
-                    : 'border-border'}"
+            <CardHeader
+              class="flex flex-row items-center justify-between space-y-0"
+            >
+              <CardTitle>Preview</CardTitle>
+              <Dialog.Root bind:open={editDialogOpen}>
+                <Dialog.Trigger
+                  class={buttonVariants({ variant: "outline", size: "sm" })}
                 >
-                  <button
-                    type="button"
-                    class="flex-1 text-left"
-                    onclick={() => (selectedBlockIndex = index)}
-                  >
-                    <div class="font-medium">
-                      {definition?.displayName ?? block.type}
-                    </div>
-                    <div class="text-sm text-muted-foreground">
-                      v{block.version}
-                    </div>
-                  </button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onclick={() => deleteBlock(index)}
-                    class="h-8 w-8"
-                  >
-                    <Trash2 class="h-4 w-4" />
-                  </Button>
-                </div>
-              {:else}
-                <p class="text-sm text-muted-foreground text-center py-4">
-                  No blocks added yet. Select a block type above to get started.
-                </p>
-              {/each}
+                  <Pencil class="h-4 w-4 mr-2" />
+                  Edit
+                </Dialog.Trigger>
+                <Dialog.Content
+                  class="sm:max-w-[600px] max-h-[80vh] overflow-y-auto"
+                >
+                  <Dialog.Header>
+                    <Dialog.Title>Edit {definition.displayName}</Dialog.Title>
+                    <Dialog.Description>
+                      Make changes to your block here. Changes are reflected in
+                      the preview automatically.
+                    </Dialog.Description>
+                  </Dialog.Header>
+                  <div class="space-y-4 py-4">
+                    {#each definition.ui as field}
+                      <FormRenderer
+                        {field}
+                        {block}
+                        onChange={updateBlockField}
+                      />
+                    {/each}
+                  </div>
+                </Dialog.Content>
+              </Dialog.Root>
+            </CardHeader>
+            <CardContent>
+              <BlockRenderer {block} />
             </CardContent>
           </Card>
-        </div>
-  
-        <!-- Preview & Editor -->
-        <div class="lg:col-span-2 space-y-4">
-          {#if selectedBlock() && selectedDefinition()}
-            {@const block = selectedBlock()!}
-            {@const definition = selectedDefinition()!}
-  
-            <!-- Preview -->
-            <Card>
-              <CardHeader
-                class="flex flex-row items-center justify-between space-y-0"
-              >
-                <CardTitle>Preview</CardTitle>
-                <Dialog.Root bind:open={editDialogOpen}>
-                  <Dialog.Trigger
-                    class={buttonVariants({ variant: "outline", size: "sm" })}
-                  >
-                    <Pencil class="h-4 w-4 mr-2" />
-                    Edit
-                  </Dialog.Trigger>
-                  <Dialog.Content
-                    class="sm:max-w-[600px] max-h-[80vh] overflow-y-auto"
-                  >
-                    <Dialog.Header>
-                      <Dialog.Title>Edit {definition.displayName}</Dialog.Title>
-                      <Dialog.Description>
-                        Make changes to your block here. Changes are reflected in
-                        the preview automatically.
-                      </Dialog.Description>
-                    </Dialog.Header>
-                    <div class="space-y-4 py-4">
-                      {#each definition.ui as field}
-                        <FormRenderer
-                          {field}
-                          {block}
-                          onChange={updateBlockField}
-                        />
-                      {/each}
-                    </div>
-                  </Dialog.Content>
-                </Dialog.Root>
-              </CardHeader>
-              <CardContent>
-                <BlockRenderer {block} />
-              </CardContent>
-            </Card>
-          {:else}
-            <Card>
-              <CardContent class="py-12 text-center">
-                <p class="text-muted-foreground">
-                  Select a block to edit and preview
-                </p>
-              </CardContent>
-            </Card>
-          {/if}
-        </div>
+        {:else}
+          <Card>
+            <CardContent class="py-12 text-center">
+              <p class="text-muted-foreground">
+                Select a block to edit and preview
+              </p>
+            </CardContent>
+          </Card>
+        {/if}
       </div>
     </div>
   </div>
